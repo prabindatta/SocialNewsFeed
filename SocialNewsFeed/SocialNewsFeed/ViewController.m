@@ -11,10 +11,16 @@
 
 
 #import "ViewController.h"
-#import "AFNetworking/AFNetworking.h"
+#import "NewsFeedCell.h"
 
+#import "AFNetworking/AFNetworking.h"
+#import "SDWebImage/UIImageView+WebCache.h"
+#import <MBProgressHUD/MBProgressHUD.h>
 
 @interface ViewController ()
+{
+    NSDictionary *items;
+}
 
 @end
 
@@ -26,10 +32,12 @@
 
     //NSLog(@"%@",URL(1));
     
+    // Loader
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     // Load Data - WebService
     [self fetchInfofromWebService:1];
     
-    // Load Table
     
 }
 
@@ -50,7 +58,8 @@
     [manager setRequestSerializer:[AFHTTPRequestSerializer serializer]];
     [manager.requestSerializer setValue:@AUTHORIZATION forHTTPHeaderField:@"Authorization"];
     [manager GET:URL((long)pageId) parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"JSON: %@", responseObject);
+//        NSLog(@"JSON: %@", responseObject);
+        [self loadWebContents:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
     }];
@@ -58,12 +67,23 @@
 
 #pragma mark - Load Contents
 
+- (void)loadWebContents:(NSDictionary *)dicJsonResponse
+{
+    NSLog(@"%@",dicJsonResponse);
+    items = dicJsonResponse;
+    
+    // Re-Load Table
+    [self.mTableView reloadData];
+    
+    // Remove Progress
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+}
 
 #pragma mark - UITableViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return [[items objectForKey:@"results"] count];
 }
 
 
@@ -71,10 +91,22 @@
 {
     static NSString *identifier = @"cellIdentifier";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    NewsFeedCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     
     if(!cell)
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        cell = [[NewsFeedCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    
+    NSString *imageUrlStr = [[[items objectForKey:@"results"] objectAtIndex:indexPath.row] objectForKey:@"image"];
+    NSString *username = [[[items objectForKey:@"results"] objectAtIndex:indexPath.row] objectForKey:@"user_name"];
+    NSString *text = [[[items objectForKey:@"results"] objectAtIndex:indexPath.row] objectForKey:@"text"];
+    
+    if(imageUrlStr || ![imageUrlStr isEqualToString:@""])
+        [cell.newsImageView sd_setImageWithURL:[NSURL URLWithString:imageUrlStr] placeholderImage:[UIImage imageNamed:@"loading.png"]];
+    if(username)
+        cell.newsUserName.text = username;
+    if (text) {
+        cell.newsText.text = text;
+    }
     
     return cell;
 }
