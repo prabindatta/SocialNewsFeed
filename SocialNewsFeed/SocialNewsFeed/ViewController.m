@@ -20,6 +20,7 @@
 @interface ViewController ()
 {
     NSDictionary *items;
+    NSInteger currentPage;
 }
 
 @end
@@ -36,7 +37,8 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     // Load Data - WebService
-    [self fetchInfofromWebService:1];
+    currentPage = 1;
+    [self fetchInfofromWebService:currentPage];
     
     
 }
@@ -87,6 +89,10 @@
     return [[items objectForKey:@"results"] count];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 87.0;
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -110,6 +116,41 @@
     }
     
     return cell;
+}
+
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    NSIndexPath *firstVisibleIndexPath = [[self.mTableView indexPathsForVisibleRows] objectAtIndex:0];
+    NSInteger visibleRows = [[self.mTableView indexPathsForVisibleRows] count];
+    NSIndexPath *lastVisibleIndexPath = [[self.mTableView indexPathsForVisibleRows] objectAtIndex:(visibleRows-1)];
+    
+    if(firstVisibleIndexPath.row == 0)
+    {
+        NSLog(@"Previous: %@",[items objectForKey:@"previous"]);
+        NSString *previous = [items objectForKey:@"previous"];
+        if (![previous isKindOfClass:[NSNull class]]) {
+            // Loader
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            
+            // Load Data - WebService
+            [self fetchInfofromWebService:--currentPage];
+        }
+        
+    }
+    
+    if(lastVisibleIndexPath.row == ([[items objectForKey:@"results"] count] -1))
+    {
+        NSLog(@"Previous: %@",[items objectForKey:@"next"]);
+        NSString *next = [items objectForKey:@"next"];
+        if (![next isKindOfClass:[NSNull class]]) {
+            // Loader
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            
+            // Load Data - WebService
+            [self fetchInfofromWebService:++currentPage];
+        }
+    }
 }
 
 @end
