@@ -62,6 +62,7 @@
         [self loadWebContents:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
 }
 
