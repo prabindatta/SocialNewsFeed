@@ -8,6 +8,10 @@
 
 #define URL(X)              [NSString stringWithFormat:@"http://emstagingeu.herokuapp.com/api/v1/feeds/feeds/?page=%ld",X]
 #define AUTHORIZATION       "Token  09204e2bc87ece0990195bf55085780a411bed50"
+#define FONT_SIZE           17.0f
+#define CELL_CONTENT_WIDTH  230.0f
+#define CELL_CONTENT_MARGIN_TOP 32.0f
+#define CELL_CONTENT_MARGIN_BOT 12.0f
 
 
 #import "ViewController.h"
@@ -91,7 +95,19 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 87.0;
+    NSString *text = [[[items objectForKey:@"results"] objectAtIndex:indexPath.row] objectForKey:@"text"];
+    
+    CGSize constraint = CGSizeMake(CELL_CONTENT_WIDTH, 20000.0f);
+    
+    UIFont *font = [UIFont boldSystemFontOfSize:FONT_SIZE];
+    CGRect rect = [text boundingRectWithSize:constraint
+                                         options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
+                                  attributes:@{NSFontAttributeName:font}
+                                         context:nil];
+    
+    CGFloat height = roundf(rect.size.height + CELL_CONTENT_MARGIN_TOP + CELL_CONTENT_MARGIN_BOT);
+    
+    return height;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -101,7 +117,9 @@
     NewsFeedCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     
     if(!cell)
+    {
         cell = [[NewsFeedCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    }
     
     NSString *imageUrlStr = [[[items objectForKey:@"results"] objectAtIndex:indexPath.row] objectForKey:@"image"];
     NSString *username = [[[items objectForKey:@"results"] objectAtIndex:indexPath.row] objectForKey:@"user_name"];
@@ -112,6 +130,20 @@
     if(username)
         cell.newsUserName.text = username;
     if (text) {
+        CGSize constraint = CGSizeMake(CELL_CONTENT_WIDTH, 20000.0f);
+        
+        UIFont *font = [UIFont boldSystemFontOfSize:FONT_SIZE];
+        CGRect rect = [text boundingRectWithSize:constraint
+                                         options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
+                                      attributes:@{NSFontAttributeName:font}
+                                         context:nil];
+        
+        CGFloat height = roundf(rect.size.height +(CELL_CONTENT_MARGIN_TOP + CELL_CONTENT_MARGIN_BOT));
+        
+//        CGRect frame = cell.newsText.frame;
+//        frame.origin.y -= 10;
+//        frame.size.height = height;
+        [cell.newsText setFrame:CGRectMake(80, 20, CELL_CONTENT_WIDTH, height)];
         cell.newsText.text = text;
     }
     
