@@ -18,9 +18,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="270" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="5ki-GT-ygO">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="270" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="5ki-GT-ygO">
                                 <rect key="frame" x="0.0" y="20" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="568" id="jZx-gC-3Gk"/>
+                                    <constraint firstAttribute="width" constant="320" id="w0w-wz-7gK"/>
+                                </constraints>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cellIdentifier" rowHeight="270" id="Pb2-TL-cTu" customClass="NewsFeedCell">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
@@ -90,6 +94,12 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="5ki-GT-ygO" secondAttribute="bottom" constant="-20" id="Rj6-8c-Dc8"/>
+                            <constraint firstItem="5ki-GT-ygO" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="YIW-YX-txC"/>
+                            <constraint firstAttribute="trailing" secondItem="5ki-GT-ygO" secondAttribute="trailing" id="kO1-cq-Nh7"/>
+                            <constraint firstItem="5ki-GT-ygO" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" constant="20" id="ndH-6f-7l4"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="mTableView" destination="5ki-GT-ygO" id="XQk-Xf-3nA"/>
