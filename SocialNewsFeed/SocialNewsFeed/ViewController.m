@@ -11,11 +11,13 @@
 #define FONT_SIZE           17.0f
 #define CELL_CONTENT_WIDTH  230.0f
 #define CELL_CONTENT_MARGIN_TOP 32.0f
-#define CELL_CONTENT_MARGIN_BOT 12.0f
+#define CELL_CONTENT_IMG 185.0f
+#define CELL_CONTENT_MARGIN_BOT 8.0f
 
 
 #import "ViewController.h"
 #import "NewsFeedCell.h"
+//#import "NewsFeedImgCell.h
 
 #import "AFNetworking/AFNetworking.h"
 #import "SDWebImage/UIImageView+WebCache.h"
@@ -55,11 +57,6 @@
 #pragma mark - WebServices
 - (void)fetchInfofromWebService:(NSInteger)pageId
 {
-//    NSMutableURLRequest *rasterRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:imageUrl]];
-//    [rasterRequest setValue:@AUTHORIZATION forHTTPHeaderField:@"Authorization"];
-//    
-//    AFHTTPRequestOperation *imageOperation = [[AFHTTPRequestOperation alloc] initWithRequest:rasterRequest];
-    
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     [manager setRequestSerializer:[AFHTTPRequestSerializer serializer]];
     [manager.requestSerializer setValue:@AUTHORIZATION forHTTPHeaderField:@"Authorization"];
@@ -96,6 +93,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *text = [[[items objectForKey:@"results"] objectAtIndex:indexPath.row] objectForKey:@"text"];
+    NSString *newsImgUrlStr = [[[items objectForKey:@"results"] objectAtIndex:indexPath.row] objectForKey:@"image_content"];
     
     CGSize constraint = CGSizeMake(CELL_CONTENT_WIDTH, 20000.0f);
     
@@ -106,6 +104,9 @@
                                          context:nil];
     
     CGFloat height = roundf(rect.size.height + CELL_CONTENT_MARGIN_TOP + CELL_CONTENT_MARGIN_BOT);
+    
+    if(newsImgUrlStr && ![newsImgUrlStr isEqualToString:@""])
+        height+= CELL_CONTENT_IMG;
     
     return height;
 }
@@ -121,19 +122,20 @@
         cell = [[NewsFeedCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
     
-    NSString *imageUrlStr = [[[items objectForKey:@"results"] objectAtIndex:indexPath.row] objectForKey:@"image"];
+    NSString *profileImgUrlStr = [[[items objectForKey:@"results"] objectAtIndex:indexPath.row] objectForKey:@"image"];
     NSString *username = [[[items objectForKey:@"results"] objectAtIndex:indexPath.row] objectForKey:@"user_name"];
-    NSString *text = [[[items objectForKey:@"results"] objectAtIndex:indexPath.row] objectForKey:@"text"];
+    NSString *newsTxt = [[[items objectForKey:@"results"] objectAtIndex:indexPath.row] objectForKey:@"text"];
+    NSString *newsImgUrlStr = [[[items objectForKey:@"results"] objectAtIndex:indexPath.row] objectForKey:@"image_content"];
     
-    if(imageUrlStr || ![imageUrlStr isEqualToString:@""])
-        [cell.newsImageView sd_setImageWithURL:[NSURL URLWithString:imageUrlStr] placeholderImage:[UIImage imageNamed:@"loading.png"]];
+    if(profileImgUrlStr || ![profileImgUrlStr isEqualToString:@""])
+        [cell.newsProileImageView sd_setImageWithURL:[NSURL URLWithString:profileImgUrlStr] placeholderImage:[UIImage imageNamed:@"loading.png"]];
     if(username)
         cell.newsUserName.text = username;
-    if (text) {
+    if (newsTxt) {
         CGSize constraint = CGSizeMake(CELL_CONTENT_WIDTH, 20000.0f);
         
         UIFont *font = [UIFont boldSystemFontOfSize:FONT_SIZE];
-        CGRect rect = [text boundingRectWithSize:constraint
+        CGRect rect = [newsTxt boundingRectWithSize:constraint
                                          options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
                                       attributes:@{NSFontAttributeName:font}
                                          context:nil];
@@ -144,8 +146,12 @@
 //        frame.origin.y -= 10;
 //        frame.size.height = height;
         [cell.newsText setFrame:CGRectMake(80, 20, CELL_CONTENT_WIDTH, height)];
-        cell.newsText.text = text;
+        cell.newsText.text = newsTxt;
     }
+    
+    if(newsImgUrlStr && ![newsImgUrlStr isEqualToString:@""])
+        [cell.newsImageView sd_setImageWithURL:[NSURL URLWithString:newsImgUrlStr] placeholderImage:[UIImage imageNamed:@"loading.png"]];
+    
     
     return cell;
 }
