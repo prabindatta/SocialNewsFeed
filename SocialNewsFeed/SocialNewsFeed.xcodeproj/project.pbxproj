@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0AC1D0891A666EE900335F01 /* like.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AC1D0881A666EE900335F01 /* like.png */; };
+		0AC1D08B1A666EF700335F01 /* comment.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0AC1D08A1A666EF700335F01 /* comment.jpg */; };
 		3AA23A72FFD2075B9788173A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AD817587FEFA1551D348C784 /* libPods.a */; };
 		860B9AD41A23BC4D002AC56C /* loading.png in Resources */ = {isa = PBXBuildFile; fileRef = 860B9AD31A23BC4D002AC56C /* loading.png */; };
 		861FC0FA1A23B1630093F7A6 /* NewsFeedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 861FC0F91A23B1630093F7A6 /* NewsFeedCell.m */; };
@@ -37,6 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0AC1D0881A666EE900335F01 /* like.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = like.png; sourceTree = "<group>"; };
+		0AC1D08A1A666EF700335F01 /* comment.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = comment.jpg; sourceTree = "<group>"; };
 		860B9AD31A23BC4D002AC56C /* loading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loading.png; sourceTree = "<group>"; };
 		861FC0F81A23B1630093F7A6 /* NewsFeedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsFeedCell.h; sourceTree = "<group>"; };
 		861FC0F91A23B1630093F7A6 /* NewsFeedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsFeedCell.m; sourceTree = "<group>"; };
@@ -126,13 +130,13 @@
 				86EDF1001A1FAE0E00FC3B21 /* AppDelegate.m */,
 				86EDF1021A1FAE0E00FC3B21 /* ViewController.h */,
 				86EDF1031A1FAE0E00FC3B21 /* ViewController.m */,
+				861FC0F81A23B1630093F7A6 /* NewsFeedCell.h */,
+				861FC0F91A23B1630093F7A6 /* NewsFeedCell.m */,
 				86EDF1051A1FAE0E00FC3B21 /* Main.storyboard */,
 				86EDF1081A1FAE0E00FC3B21 /* Images.xcassets */,
 				86EDF10A1A1FAE0E00FC3B21 /* LaunchScreen.xib */,
 				86EDF0FB1A1FAE0E00FC3B21 /* Supporting Files */,
 				86EDF1211A1FC13800FC3B21 /* Frameworks */,
-				861FC0F81A23B1630093F7A6 /* NewsFeedCell.h */,
-				861FC0F91A23B1630093F7A6 /* NewsFeedCell.m */,
 			);
 			path = SocialNewsFeed;
 			sourceTree = "<group>";
@@ -140,6 +144,8 @@
 		86EDF0FB1A1FAE0E00FC3B21 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0AC1D0881A666EE900335F01 /* like.png */,
+				0AC1D08A1A666EF700335F01 /* comment.jpg */,
 				860B9AD31A23BC4D002AC56C /* loading.png */,
 				86EDF0FC1A1FAE0E00FC3B21 /* Info.plist */,
 				86EDF0FD1A1FAE0E00FC3B21 /* main.m */,
@@ -270,6 +276,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				860B9AD41A23BC4D002AC56C /* loading.png in Resources */,
+				0AC1D08B1A666EF700335F01 /* comment.jpg in Resources */,
+				0AC1D0891A666EE900335F01 /* like.png in Resources */,
 				86EDF1071A1FAE0E00FC3B21 /* Main.storyboard in Resources */,
 				86EDF10C1A1FAE0E00FC3B21 /* LaunchScreen.xib in Resources */,
 				86EDF1091A1FAE0E00FC3B21 /* Images.xcassets in Resources */,

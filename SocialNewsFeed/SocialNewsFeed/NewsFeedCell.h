@@ -13,6 +13,7 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *newsProileImageView;
 @property (weak, nonatomic) IBOutlet UILabel *newsUserName;
+@property (weak, nonatomic) IBOutlet UILabel *newspostDate;
 @property (weak, nonatomic) IBOutlet UILabel *newsText;
 @property (weak, nonatomic) IBOutlet UIImageView *newsImageView;
 
